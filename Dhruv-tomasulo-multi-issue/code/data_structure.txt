@@ -1,0 +1,18 @@
+Data structures (init.py)
+
+Config      hardware numbers from the input: reservation stations, EX cycles, memory cycles,
+            number of units, ROB size, issue width, commit width, CDB width, load speculation.
+Instr       one program line: op, destination, sources, immediate, branch offset.
+Operand     a source value: either ready (value) or waiting for a ROB entry (producer).
+ROBEntry    one in-flight instruction. Holds seq number, operands, result, the cycles of
+            issue / ex_start / ex_end / mem_start / mem_end / wb / commit, branch
+            prediction, address (loads and stores) and a squashed flag.
+Machine     the whole processor state:
+  regs      register values
+  memory    dict address -> value (addresses 0..255)
+  rob       deque of ROBEntry, oldest first
+  rat       register name -> the ROBEntry that will write it (renaming table)
+  rs        three lists of waiting entries: 'int', 'fpadd', 'fpmul'
+  lsq       load/store queue, oldest first
+  btb       8 entries (pc & 7): last outcome (1 bit) and target
+  results   (entry, ready cycle) waiting for the CDB

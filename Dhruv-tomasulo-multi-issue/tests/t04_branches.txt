@@ -1,0 +1,28 @@
+// Test 4: branch prediction and recovery.
+//  - a loop of 4 iterations ended by Bne: the 1-bit predictor with the 8-entry
+//    BTB is wrong the first time (nothing in the BTB, predicted not taken) and
+//    at the exit of the loop (predicted taken)
+//  - a Beq that is taken and skips an instruction, and a Beq that is not taken
+//  - instructions fetched after a mispredicted branch must be squashed and must
+//    not change registers or memory; correct fetch restarts 2 cycles after the
+//    misprediction is found
+                 # of rs   Cycles in EX   Cycles in Mem   # of FUs
+Integer adder    4         1                              2
+FP adder         3         2                              1
+FP multiplier    2         4                              1
+Load/store unit  4         1              2               1
+ROB entries = 32
+R1=4, R5=0, F1=1.0, F2=0.5
+
+Add.d F3, F3, F1
+Mult.d F4, F3, F2
+Sd    F4, 0(R5)
+Addi  R5, R5, 4
+Addi  R1, R1, -1
+Bne   R1, R0, -6
+Addi  R7, R0, 99
+Beq   R7, R7, 1
+Addi  R8, R0, 111
+Beq   R7, R0, 1
+Addi  R9, R0, 222
+Addi  R10, R0, 333

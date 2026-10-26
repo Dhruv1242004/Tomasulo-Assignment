@@ -1,0 +1,62 @@
+                              ISSUE       EX          MEM         WB        COMMIT
+Add.d F3, F3, F1              [1]         [2, 3]      []          [4]       [5]
+Mult.d F4, F3, F2             [1]         [5, 8]      []          [9]       [10]
+Sd F4, 0(R5)                  [1]         [2, 2]      [10, 11]    []        [10]
+Addi R5, R5, 4                [2]         [3, 3]      []          [5]       [10]
+Addi R1, R1, -1               [2]         [3, 3]      []          [6]       [11]
+Bne R1, R0, -6                [2]         [7, 7]      []          []        [11]
+Add.d F3, F3, F1              [9]         [10, 11]    []          [12]      [13]
+Mult.d F4, F3, F2             [9]         [13, 16]    []          [18]      [19]
+Sd F4, 0(R5)                  [9]         [10, 10]    [19, 20]    []        [19]
+Addi R5, R5, 4                [10]        [11, 11]    []          [13]      [19]
+Addi R1, R1, -1               [10]        [11, 11]    []          [14]      [20]
+Bne R1, R0, -6                [10]        [15, 15]    []          []        [20]
+Add.d F3, F3, F1              [11]        [13, 14]    []          [15]      [20]
+Mult.d F4, F3, F2             [11]        [16, 19]    []          [22]      [23]
+Sd F4, 0(R5)                  [11]        [14, 14]    [23, 24]    []        [23]
+Addi R5, R5, 4                [12]        [14, 14]    []          [16]      [23]
+Addi R1, R1, -1               [12]        [15, 15]    []          [17]      [24]
+Bne R1, R0, -6                [12]        [18, 18]    []          []        [24]
+Add.d F3, F3, F1              [13]        [16, 17]    []          [19]      [24]
+Mult.d F4, F3, F2             [14]        [20, 23]    []          [24]      [25]
+Sd F4, 0(R5)                  [14]        [17, 17]    [25, 26]    []        [25]
+Addi R5, R5, 4                [15]        [17, 17]    []          [20]      [25]
+Addi R1, R1, -1               [16]        [18, 18]    []          [21]      [26]
+Bne R1, R0, -6                [16]        [22, 22]    []          []        [26]
+Addi R7, R0, 99               [24]        [25, 25]    []          [26]      [27]
+Beq R7, R7, 1                 [24]        [27, 27]    []          []        [28]
+Beq R7, R0, 1                 [29]        [30, 30]    []          []        [31]
+Addi R9, R0, 222              [29]        [30, 30]    []          [31]      [32]
+Addi R10, R0, 333             [29]        [31, 31]    []          [32]      [33]
+
+Instructions committed: 29    Cycles: 33    IPC: 0.879    Issue width: 3
+Branches: 6    Mispredicted: 3    Load/store order violations: 0    Squashed instructions: 19
+  cycle 7: Bne R1, R0, -6 (instruction 5) was mispredicted, 5 younger instructions squashed, fetch restarts at instruction 0 in cycle 9
+  cycle 22: Bne R1, R0, -6 (instruction 5) was mispredicted, 10 younger instructions squashed, fetch restarts at instruction 6 in cycle 24
+  cycle 27: Beq R7, R7, 1 (instruction 7) was mispredicted, 4 younger instructions squashed, fetch restarts at instruction 9 in cycle 29
+
+REGISTER VALUES
+        R0        R1        R2        R3        R4        R5        R6        R7        
+value:  0         0         0         0         0         16        0         99        
+        R8        R9        R10       R11       R12       R13       R14       R15       
+value:  0         222       333       0         0         0         0         0         
+        R16       R17       R18       R19       R20       R21       R22       R23       
+value:  0         0         0         0         0         0         0         0         
+        R24       R25       R26       R27       R28       R29       R30       R31       
+value:  0         0         0         0         0         0         0         0         
+
+        F0        F1        F2        F3        F4        F5        F6        F7        
+value:  0         1.0       0.5       4.0       2.0       0         0         0         
+        F8        F9        F10       F11       F12       F13       F14       F15       
+value:  0         0         0         0         0         0         0         0         
+        F16       F17       F18       F19       F20       F21       F22       F23       
+value:  0         0         0         0         0         0         0         0         
+        F24       F25       F26       F27       F28       F29       F30       F31       
+value:  0         0         0         0         0         0         0         0         
+
+NON-ZERO MEMORY VALUES
+Addresses   Values
+0           0.5
+4           1.0
+8           1.5
+12          2.0

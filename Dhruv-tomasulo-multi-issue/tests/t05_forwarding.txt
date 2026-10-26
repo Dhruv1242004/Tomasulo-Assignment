@@ -1,0 +1,23 @@
+// Test 5: load/store queue. A load gets its value from the nearest older store
+// with the same address (1 cycle in MEM), even if the store data arrives late.
+// A load from another address reads the memory. Stores write the memory only
+// when they commit.
+                 # of rs   Cycles in EX   Cycles in Mem   # of FUs
+Integer adder    4         1                              1
+FP adder         3         3                              1
+FP multiplier    2         5                              1
+Load/store unit  6         1              4               1
+ROB entries = 32
+R1=8, R2=12
+F1=1.0, F2=2.0
+Mem[8]=100.0, Mem[12]=200.0, Mem[16]=300.0
+
+Add.d F3, F1, F2
+Sd    F3, 0(R1)
+Ld    F4, 0(R1)
+Ld    F5, 0(R2)
+Sd    F4, 0(R2)
+Ld    F6, 0(R2)
+Add.d F7, F4, F6
+Sd    F7, 4(R2)
+Ld    F8, 8(R1)
